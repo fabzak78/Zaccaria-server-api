@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
     
-    //res.send("prova");
+  
     //// http://api.openweathermap.org/data/2.5/weather?q=Rome&units=metric&appid=49f45f238ee678f22cf31b86acbe3109
     let city = req.query.city;
     const request = require('request');
