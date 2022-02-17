@@ -1,23 +1,33 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const request = require("request");
+const cors = require("cors")
 const app = express();
-
-// Configure dotenv package
-
-require("dotenv").config();
-
-const apiKey = `${process.env.API_KEY}`;
-
-// Setup your express app and body-parser configurations
-// Setup your javascript template view engine
-// we will serve your static pages from the public directory, it will act as your root directory
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
+const port = process.env.PORT || 3000
 
 
-app.get("/", function (req, res) {
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config()
+}
+
+
+const domainsFromEnv = process.env.CORS_DOMAINS || ""
+
+const whitelist = domainsFromEnv.split(",").map(item => item.trim())
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials: true,
+}
+app.use(cors(corsOptions))
+
+
+
+app.get("/getcity", function (req, res) {
     
   
     //// http://api.openweathermap.org/data/2.5/weather?q=Rome&units=metric&appid=49f45f238ee678f22cf31b86acbe3109
@@ -42,17 +52,14 @@ app.get("/", function (req, res) {
   });
 
 
-  // On a post request, the app shall data from OpenWeatherMap using the given arguments
-app.post('/', function(req, res) {
+  app.listen(port, () => {
+    console.log(`Example app listening at Port: ${port}`)
+  })
 
-    // Get city name passed in the form
-    let city = req.body.city;
 
-    // Use that city name to fetch data
-    // Use the API_KEY in the '.env' file
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-});
+  /////////////////////////////////////////
 
-app.listen(process.env.PORT || 5000, function () {
-    console.log("Weather app listening on port 5000!");
-  });
+
+
+
+
