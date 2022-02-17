@@ -44,8 +44,10 @@ app.get("/getcity", function (req, res) {
     //// http://api.openweathermap.org/data/2.5/weather?q=Rome&units=metric&appid=49f45f238ee678f22cf31b86acbe3109
     let city = req.query.city;
     const request = require('request');
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_KEY}`;
-    //console.log(url)
+    let herokuUrl='https://cors-anywhere.herokuapp.com/';
+    let url = `${herokuUrl}http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_KEY}`;
+
+    console.log(url)
     request(url, function (error, response, body) {
       //console.error('error:', error); // Print the error if one occurred
       //let data = JSON.parse(body)
