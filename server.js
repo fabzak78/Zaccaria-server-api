@@ -62,7 +62,10 @@ app.get("/getcity", function (req, res) {
     });
   });
 
+  app.get("/getmsg", function (req, res) {
 
+      res.send("get recived!")
+  });
   app.listen(port, () => {
     console.log(`Example app listening at Port: ${port}`)
   })
