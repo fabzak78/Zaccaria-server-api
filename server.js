@@ -94,6 +94,41 @@ app.get("/api/getcity", verifyToken, (req, res) => {
   });
 });
 
+
+app.get("/api/getcityhourly", verifyToken, (req, res) => {
+  //http://localhost:3000/getCity?city=rome
+  let city = req.query.city;
+  let urlOpenweathermap = `http://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=${process.env.API_KEY_PRO}`;
+  request(urlOpenweathermap, function (error, response, body) {
+    let weather = JSON.parse(body);
+    if (response.statusCode === 200) {
+      res.set('Access-Control-Allow-Origin', '*');
+      res.send(weather)
+      //res.send(`${weather.weather[0]}`)
+
+    }
+  });
+});
+
+app.get("/api/getcityclimate", verifyToken, (req, res) => {
+  //http://localhost:3000/getCity?city=rome
+  let city = req.query.city;
+  let urlOpenweathermap = `http://pro.openweathermap.org/data/2.5/forecast/climate?q=${city}&units=metric&appid=${process.env.API_KEY_PRO}`;
+  request(urlOpenweathermap, function (error, response, body) {
+    let weather = JSON.parse(body);
+    if (response.statusCode === 200) {
+      res.set('Access-Control-Allow-Origin', '*');
+      res.send(weather)
+      //res.send(`${weather.weather[0]}`)
+
+    }
+  });
+});
+
+
+
+
+
 app.get("/api/getyelpdata", verifyToken, (req, res) => {
   // http://localhost:3000/getyelpdata?city=rome
   let city = req.query.city;
